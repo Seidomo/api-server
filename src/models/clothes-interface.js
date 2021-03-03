@@ -9,8 +9,9 @@ class ClothesInterface{
     this.model= model;
   }
   read(id){
+    // console.log(id, this.model);
     if(id){
-      return this.model.find({ id: id});
+      return this.model.find({ _id: id});
     }
     return this.model.find({});
     

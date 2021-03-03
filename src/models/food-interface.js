@@ -7,7 +7,7 @@ class FoodInterface{
   }
   read(id){
     if(id){
-      return this.model.find({ id: id});
+      return this.model.find({ _id: id});
     }
     return this.model.find({});
     
@@ -21,7 +21,8 @@ class FoodInterface{
   }
  
   update(id, obj){
-    this.model.findOneAndUpdate({_id: id}, obj, {new:true});
+    return  this.model.findOneAndUpdate({_id: id}, obj, {new:true});
+ 
 
   }
   delete(id){

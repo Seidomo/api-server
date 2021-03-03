@@ -13,40 +13,43 @@ router.post('/clothes', createClothes);
 router.put('/clothes/:id', validator, updateClothes);
 router.delete('/clothes/:id', validator, deleteClothes);
 
-function getClothes(request, response, next){
+async function getClothes(request, response, next){
   
-  let clothesObj = clothes.read();
+  let clothesObj = await clothes.read();
   response.json(clothesObj);
 }
 
-function getClothesById(request, response, next){
-  
-  const id = parseInt(request.params.id);
-  let clothesObj = clothes.read(id);
-  //   response.json(clothesObj);
-  response.json(clothesObj);
+async function getClothesById(request, response, next){
+  try{
+    const id = (request.params.id);
+    let clothesObj = await clothes.read(id);
+    //   response.json(clothesObj);
+    response.json(clothesObj[0]);
+  }catch(error){
+    next('Invalid ID !');
+  }
 }
 
-function createClothes(request, response, next) {
+async function createClothes(request, response, next) {
   
   const clothesObj = request.body;
-  let resObject = clothes.create(clothesObj);
+  let resObject = await clothes.create(clothesObj);
   response.json(resObject);
 }
 
-function updateClothes(request, response, next){
-  const id = parseInt(request.params.id);
+async function updateClothes(request, response, next){
+  const id = (request.params.id);
   const foodBody = request.body;
-  let clothesObj = clothes.update(id, foodBody);
+  let clothesObj = await clothes.update(id, foodBody);
   // console.log(clothesObj);
   response.json(clothesObj);
 
 }
 
-function deleteClothes(request, response, next){
+async function deleteClothes(request, response, next){
   const id = parseInt(request.params.id);
-  let clothesObj = clothes.delete(id);
-  response.json(clothesObj);
+  let clothesObj = await clothes.delete(id);
+  response.status(204).json(clothesObj);
 
 }
 

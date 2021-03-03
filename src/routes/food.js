@@ -17,11 +17,16 @@ router.delete('/food/:id', validator, deleteFood);
 
 
 async function getFoodById(request, response, next){
+  try{
+    const id = request.params.id;
+    let foodObj = await food.read(id);
   
-  const id = request.params.id;
-  let foodObj = await food.read(id);
-  
-  response.json(foodObj);
+    response.json(foodObj);
+  }catch(error){
+    next('Invalid ID !');
+
+
+  }
 }
 
 async function createFood(request, response, next) {
@@ -35,7 +40,7 @@ async function updateFood(request, response, next){
   const id = request.params.id;
   const foodBody = request.body;
   let foodObj =  await food.update(id, foodBody);
-  console.log(foodObj);
+  console.log('food route', foodObj);
   response.json(foodObj);
 
 }
